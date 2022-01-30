@@ -1,0 +1,4 @@
+pipenv run python -m app.scripts.cli <command>
+
+pipenv run python -m app.scripts.cli add_user --username=bob --email=bob@example.com --password=123456
+pipenv run python -m app.scripts.cli delete_user bob@example.com
