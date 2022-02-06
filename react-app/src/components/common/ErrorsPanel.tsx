@@ -9,7 +9,7 @@ function ErrorsPanel({ errors }: ErrorsPanelProps) {
     return null;
   }
 
-  const errorsCountText = errors.length > 1 ? `There were ${errors.length} errors with your submission` : errors[0];
+  const errorsCountText = errors.length > 1 ? `There were ${errors.length} errors with your submission.` : errors[0];
 
   return (
     <div className="rounded-md bg-red-50 p-4">
