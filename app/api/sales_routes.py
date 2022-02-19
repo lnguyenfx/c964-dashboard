@@ -44,19 +44,21 @@ def error_in_sales_with_filters(filters):
 def get_historical_sales(filters=None):
     sales = HistoricalSales.query.filter(HistoricalSales.date >= '2017-08-01')
     if filters is None:
-        return {'historical_sales': [row.to_summary() for row in sales]}
+        families = []
     else:
         families = [val for val in filters.split('+')]
-        return {'historical_sales': [row.to_summary(families) for row in sales]}
+    
+    return {'historical_sales': [row.to_summary(families) for row in sales]}
 
 
 def get_predicted_sales(filters = None):
     sales = PredictedSales.query.filter(PredictedSales.date >= '2017-08-16')
     if filters is None:
-        return {'predicted_sales': [row.to_summary() for row in sales]}
+        families = []
     else:
         families = [val for val in filters.split('+')]
-        return {'predicted_sales': [row.to_summary(families) for row in sales]}
+        
+    return {'predicted_sales': [row.to_summary(families) for row in sales]}
 
 
 def get_errors_in_sales(filters = None):

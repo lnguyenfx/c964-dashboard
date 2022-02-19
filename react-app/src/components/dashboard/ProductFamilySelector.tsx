@@ -29,7 +29,7 @@ export const productFamilies = {
   ladieswear: "Ladieswear",
   lawn_and_garden: "Lawn and Garden",
   lingerie: "Lingerie",
-  liquor_wine_beer: "Liquor_win_beer",
+  liquor_wine_beer: "Liquor wine Beer",
   magazines: "Magazines",
   meats: "Meats",
   personal_care: "Personal Care",
