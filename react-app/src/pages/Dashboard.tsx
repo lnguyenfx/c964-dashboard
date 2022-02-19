@@ -4,8 +4,9 @@ import { useAtom } from "jotai";
 import { Fragment } from "react";
 
 import ChartTypeSelector, { chartTypeAtom } from "../components/dashboard/ChartTypeSelector";
+import ProductFamilySelector, { productFamilyAtom } from "../components/dashboard/ProductFamilySelector";
 import SalesChart from "../components/dashboard/SalesChart";
-import { salesTypeAtom, SalesTypeToggleButton } from "../components/dashboard/SalesTypeToggleButton";
+import SalesTypeSelector, { salesTypeAtom } from "../components/dashboard/SalesTypeSelector";
 
 function classNames(...classes: Array<string>) {
   return classes.filter(Boolean).join(" ");
@@ -14,6 +15,7 @@ function classNames(...classes: Array<string>) {
 function Dashboard() {
   const [salesType] = useAtom(salesTypeAtom);
   const [chartType] = useAtom(chartTypeAtom);
+  const [productFamily] = useAtom(productFamilyAtom);
 
   const hour = new Date().getHours();
   const timeGreet = `Good ${hour >= 18 ? "evening" : hour >= 12 ? "afternoon" : "morning"}`;
@@ -109,11 +111,14 @@ function Dashboard() {
                     </div>
                   </div>
                 </div>
-                <div className="pt-3 md:pt-0">
+                <div className="mt-6 flex space-x-3 md:mt-0 md:ml-4 flex items-center flex-col">
                   <ChartTypeSelector />
                 </div>
                 <div className="mt-6 flex space-x-3 md:mt-0 md:ml-4 flex items-center flex-col">
-                  <SalesTypeToggleButton />
+                  <ProductFamilySelector />
+                </div>
+                <div className="mt-6 flex space-x-3 md:mt-0 md:ml-4 flex items-center flex-col">
+                  <SalesTypeSelector />
                 </div>
               </div>
             </div>
@@ -121,7 +126,7 @@ function Dashboard() {
 
           <div className="mt-8">
             <div className="flex items-center justify-center">
-              <SalesChart mode={salesType} chartType={chartType} />
+              <SalesChart salesType={salesType} chartType={chartType} productFamily={productFamily} />
             </div>
           </div>
         </main>

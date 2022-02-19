@@ -2,6 +2,7 @@ import { Data } from "plotly.js";
 import { useCallback, useEffect, useState } from "react";
 
 import Chart from "./Chart";
+import { productFamilies } from "./ProductFamilySelector";
 
 export interface SalesData {
   date: string;
@@ -11,11 +12,12 @@ export interface SalesData {
 }
 
 export interface SalesChartProps {
-  mode: "historical" | "predicted";
+  salesType: "historical" | "predicted" | "errors";
   chartType: "line" | "bar" | "scatter";
+  productFamily: string;
 }
 
-export const SalesChart = ({ mode, chartType }: SalesChartProps) => {
+export const SalesChart = ({ salesType, chartType, productFamily }: SalesChartProps) => {
   const [chartData, setChartData] = useState<Array<Data>>([]);
 
   const generateChartData = useCallback(
@@ -52,20 +54,23 @@ export const SalesChart = ({ mode, chartType }: SalesChartProps) => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(`/api/sales/${mode}`);
+      let filter = productFamily === "all_products" ? "" : `/${productFamily}`;
+
+      const response = await fetch(`/api/sales/${salesType}${filter}`);
 
       if (response.ok) {
         const json = await response.json();
 
-        const data = generateChartData(json[`${mode}_sales`]);
+        const data = generateChartData(json[`${salesType}_sales`]);
         setChartData(data);
       }
     })();
-  }, [mode, setChartData, generateChartData]);
+  }, [salesType, productFamily, setChartData, generateChartData]);
 
-  const salesType = mode === "historical" ? "Historical" : "Predicted";
+  const titlePrefix =
+    salesType === "historical" ? "Historical" : salesType === "predicted" ? "Predicted" : "Prediction Errors of";
 
-  const chartTitle = `${salesType} Sales for All Products`;
+  const chartTitle = `${titlePrefix} Sales for ${(productFamilies as any)[productFamily]}`;
 
   return chartData.length > 0 ? <Chart data={chartData} title={chartTitle} width={960} height={500} /> : null;
 };
